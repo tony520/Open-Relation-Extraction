@@ -1,35 +1,34 @@
 import pandas as pd
-from util import list_to_string
+
+def list_to_string(in_list):
+    strg = ''
+    strg = ' '.join([str(elem) for elem in in_list])
+    return strg
 
 def convert_conll_to_txt(IN_FILE, OUT_FILE_SENTS, OUT_FILE_TAGS):
 	sents_file = open(OUT_FILE_SENTS, 'w')
 	tags_file = open(OUT_FILE_TAGS, 'w')
 
-	sents = []
-	tags = []
-	tags_dict = []
-	temp_sents = []
-	temp_tags = []
+	data = pd.read_csv(IN_FILE, sep='\t', usecols=['word', 'label'])
+	df = pd.DataFrame(data)
 
-	f = open(IN_FILE, 'r')
-	lines = f.readlines()
-	for line in lines:
-		if line == '\n':
-			sents.append(list_to_string(temp_sents).lower())
-			tags.append(list_to_string(temp_tags))
-			temp_sents = []
-			temp_tags = []
-		else:
-			temp_tp = line.split(' ')
-			temp_sents.append(temp_tp[0])
-			temp_tags.append(temp_tp[-1].strip('\n'))
-			if temp_tp[-1].strip('\n') not in tags_dict:
-				tags_dict.append(temp_tp[-1].strip('\n'))
-
-	assert len(sents) == len(tags)
-	for i in range(len(sents)):
-		sents_file.write(sents[i] + '\n')
-		tags_file.write(tags[i] + '\n')
+	words = []
+	labels = []
+	for index, row in df.iterrows():
+	    print(row['word'])
+	    if row['word'] != '.' and row['word'] != '\n':
+	        words.append(str(row['word']).lower())
+	        labels.append(row['label'])
+	    else:
+	        #words.append(row['word'])      # do not include final dot
+	        #labels.append(row['label'])    # do not include final dot
+	        instance = (words, labels)
+	        #print('instance', instance)
+	        # training_data.append(instance)
+	        sents_file.write(list_to_string(words) + '\n')
+	        tags_file.write(list_to_string(labels) + '\n')
+	        words = []
+	        labels = []
 
 	sents_file.close()
 	tags_file.close()
