@@ -8,6 +8,8 @@ import pickle as pickle
 
 from models.model import *
 from util import *
+from evaluations.evaluations import *
+from evaluations.metrics import *
 import matplotlib
 import matplotlib.pyplot as plt
 
@@ -71,7 +73,7 @@ for epoch in range(50):
 # Check predictions after training
 with torch.no_grad():
     precheck_sent = prepare_sequence(training_data[0][0], word_to_ix)
-    print(model(precheck_sent))
+    print(mapping_tags(model(precheck_sent)))
     
 print("Loss in 50 epochs: ", mean_cost)
 epoch_num = [i for i in range(50)]
@@ -79,3 +81,30 @@ plt.plot(epoch_num, mean_cost)
 plt.xlabel("Epoch")
 plt.ylabel("Loss")
 plt.show()
+
+# Load validation data
+val_sents = open("./data/val.sents.txt", "r")
+validating_sentences = (test_sents.read()).split("\n")
+val_tags = open("./data/val.tags.txt", "r")
+validating_tags = (test_tags.read()).split("\n")
+
+val_data_sents, val_data_tags = load_validation_dataset(validating_sentences, validating_tags)
+
+# Get prediction results over validation data
+predict_tags = []
+for i in range(len(val_data_sents)):
+    splitted_sents = val_data_sents[i]
+    prepared_sents = prepare_sequence(splitted_sents, word_to_ix)
+    predict_tagging_sequence = model(prepared_sents)[1]
+    predict_tags.append(mapping_tags(predict_tagging_sequence))
+
+
+print("Predicted tagging sequences (0-4): ", predict_tags[0:5])
+
+# Print out the evaluations
+accuracy = compute_accuracy(predict_tags, val_data_tags)
+predicate_match_score = compute_predMatch(predict_tags, val_data_tags, val_data_sents, ignoreStopwords=True, ignoreCase=True)
+argument_match_score = compute_argMatch(predict_tags, val_data_tags, val_data_sents, ignoreStopwords=True, ignoreCase=True)
+print("The accuracy is: %f" % (accuracy))
+print("The predicate matching score is %f" % (predicate_match_score))
+print("The argument matching score is %f" % (argument_match_score))
