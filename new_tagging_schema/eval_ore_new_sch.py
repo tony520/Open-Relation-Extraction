@@ -1,8 +1,6 @@
 """
-Functions for evaluating the performance of BiLSTM-CRF model
+Evaluate the performance of BiLSTM-CRF with new tagging schema
 """
-import pandas as pd
-import numpy as np
 import string
 import nltk
 from nltk.corpus import stopwords
@@ -43,6 +41,19 @@ def list_to_string(in_list):
     strg = ''
     strg = ' '.join([str(elem) for elem in in_list])
     return strg
+
+"""
+Decide if the predicates are matching in true and predicted tagging sequence
+"""
+def pred_acc_match(t1_arr, t2_arr):
+    if len(t1_arr) != len(t2_arr):
+        return False
+    for i in range(len(t1_arr)):
+        if t1_arr[i][0] == 'P' and t2_arr[i][0] == 'O':
+            return False
+        if t1_arr[i][0] == 'O' and t2_arr[i][0] == 'P':
+            return False
+    return True
 
 """
 Get arguments from one sentence
@@ -146,10 +157,7 @@ def predMatch(actual_tags, predict_tags, sentence, ignoreStopwords, ignoreCase):
         if ignoreStopwords:
             words_s1 = remove_stopwords(words_s1)
             words_s2 = remove_stopwords(words_s2)
-        return sublist(words_s2, words_s1)
-        #return words_s1 == words_s2
-    #else:
-    #    print('No predicated predicate found.', str(predict_tags))
+        return (sublist(words_s2, words_s1) or sublist(words_s1, words_s2))
 
 """
 Return the number of predicates in true and predicted tags
@@ -192,7 +200,9 @@ def getPredMatch(actual_tags, predict_tags, sentence, ignoreStopwords, ignoreCas
         if ignoreStopwords:
             words_s1 = remove_stopwords(words_s1)
             words_s2 = remove_stopwords(words_s2)
-        return len(words_s2), len(words_s1)
+        print("Predicted relations: ", words_s2)
+        print("True relations: ", words_s1)
+        return min(len(words_s2), len(words_s1)), len(words_s1)
     
 """
 Return the number of predicates in validation sentences
@@ -220,29 +230,6 @@ def getTruePredicate(actual_tags, sentence, ignoreStopwords, ignoreCase):
         words_s1 = remove_stopwords(words_s1)
     return len(words_s1)
 
-"""
-Return whether the actual arguments and predicted arguments are similar
-"""
-def argMatch_lex(actual_tags, predict_tags, sentence, ignoreStopwords, ignoreCase):
-    args_actual = get_arguments(actual_tags, sentence)
-    args_predict = get_arguments(predict_tags, sentence)
-    
-    aa, ap = '', ''
-    for arg in args_actual:
-        aa += ' ' + arg
-    for arg in args_predict:
-        ap += ' ' + arg
-    aa = aa.lstrip().split(' ')
-    ap = ap.lstrip().split(' ')
-    
-    match_number = 0
-    for word_a in aa:
-        for word_b in ap:
-            if word_a.strip() == word_b.strip():
-                match_number += 1
-    
-    coverage = float(match_number) / len(aa)
-    return coverage > LEXICAL_THRESHOLD
 
 """
 Compute the accuracy of the model
@@ -293,16 +280,4 @@ def compute_predMatch(predict_tags, actual_tags, sentences, ignoreStopwords, ign
             y_true.append(realT)
             y_pred.append(0)
     match_rate = float(match_predicate) / len(predict_tags)
-    return match_rate
-
-"""
-Compute the argument matching score
-"""
-def compute_argMatch(predict_tags, actual_tags, sentences, ignoreStopwords, ignoreCase):
-    assert len(predict_tags) == len(actual_tags) == len(sentences)
-    match_argument = 0
-    for i in range(len(predict_tags)):
-        if argMatch_lex(actual_tags[i], predict_tags[i], sentences[i], ignoreStopwords, ignoreCase):
-            match_argument += 1
-    match_rate = float(match_argument) / len(predict_tags)
     return match_rate
