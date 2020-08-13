@@ -26,7 +26,6 @@ def select_dataset(sentsname, tagsname):
 Load training data from row data files
 """
 def load_train_dataset(training_sentences, training_tags):
-	assert len(training_sentences) == len(training_tags)
     train_s = []
     train_t = []
     for i in range(len(training_sentences)):

@@ -51,6 +51,9 @@ def create_weight_matrix(filepath):
 	            words.append(word)
 	            word_to_ix[word] = idx
 	            idx += 1
+
+	pickle.dump(words, open(f'../pretrained_word_embeddings/GloVe/6B.50_words.pkl', 'wb'))
+	pickle.dump(word_to_ix, open(f'../pretrained_word_embeddings/GloVe/6B.50_word_idx.pkl', 'wb'))
             
 
 	matrix_len = len(words)
@@ -66,5 +69,9 @@ def create_weight_matrix(filepath):
 	    except KeyError:
 	        weights_matrix[i] = np.random.normal(scale = 0.6, size = (50, ))
 
+	pickle.dump(weights_matrix, open(f'../pretrained_word_embeddings/GloVe/6B.50_weights_matrix.pkl', 'wb'))
+
 	print("Pretrained word vectors number: ", words_found)
 	return weights_matrix
+
+weights_matrix = create_weight_matrix("../data/train+val.sents.txt")
