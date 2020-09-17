@@ -50,9 +50,35 @@ Testing data sets also come from the repository of [supervised-oie](https://gith
 ## Model Training
 In this project, we build a Supervised BiLSTM-CRF model for this sequence tagging task. Then we extract relations from the output tagging sequence. We take the basic BiLSTM-CRF architecture from [PyTorch Tutorial](https://pytorch.org/tutorials/beginner/nlp/advanced_tutorial.html) as a reference. The code of our Supervised Open RE model is in the folder `models`. To train the model, set the number of epoch (default: 50) and hyperparameters (default learning rate: 0.01) then run:
 ```bash
-python3 train.py
+> python3 train.py
 ```
 After the training process we can get the trained model and use it for relation extraction from sentences.
 
 ## Apply New Tagging Schema
-To use the new tagging schema, go to the folder `new_tagging_schema`.
+To use the new tagging schema, go to the folder `new_tagging_schema`. Use `gen_new_tagging_schema.py` to generate the data sets with new tagging schema. Here are example of tagging sequence in the new tagging schemas.
+
+**New Tagging Schema**
+```
+courtaulds ' spinoff reflects pressure on british industry to boost share prices beyond the reach of corporate raiders
+   A0-B  A0-I A0-I     P0-B      A1-B  A1-I  A1-I    A1-I   O  P1-B  A2-B  A2-I   A3-B  A3-I A3-I A3-I  A3-I    A3-I
+```
+
+Train our Supervised Open RE model with New Tagging Schema
+
+```bash
+> python3 train_ore_new_sh.py
+```
+
+## Evaluations
+
+Evaluation methods and code are in the folder `evaluations`. 
+
+Evaluation scripts for new tagging schema are in the folder `new_tagging_schema`.
+
+The benchmark for performance comparison is from [supervised-oie-benchmark](https://github.com/gabrielStanovsky/supervised-oie/tree/master/supervised-oie-benchmark).
+
+## Acknowledgement
+
+Open Relation Extraction is an individual computing project from College of Engineering and Computer Science (CECS), Australian National University (ANU). The original code was written by [Tao Ni](/https://tony520.github.io) using Python 3.x, PyTorch.
+
+Major contributor for this project: [Tao Ni](https://tony520.github.io) (ANU), [Dr. Qing Wang](http://users.cecs.anu.edu.au/~u5170295/index.html) (ANU Database Group) and [Dr. Gabriela Ferraro](http://users.cecs.anu.edu.au/~gferraro/index.html) (ANU, CSIRO DATA61).
