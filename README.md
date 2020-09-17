@@ -1,5 +1,5 @@
 # Open-Relation-Extraction
-Supervised BiLSTM-CRF model for Open Relation Extraction
+This is the code repository for project - Open Relation Extraction.
 
 Table of Contents
 =================
@@ -81,4 +81,4 @@ The benchmark for performance comparison is from [supervised-oie-benchmark](http
 
 Open Relation Extraction is an individual computing project from College of Engineering and Computer Science (CECS), Australian National University (ANU). The original code was written by [Tao Ni](/https://tony520.github.io) using Python 3.x, PyTorch.
 
-Major contributor for this project: [Tao Ni](https://tony520.github.io) (ANU), [Dr. Qing Wang](http://users.cecs.anu.edu.au/~u5170295/index.html) (ANU Database Group) and [Dr. Gabriela Ferraro](http://users.cecs.anu.edu.au/~gferraro/index.html) (ANU, CSIRO DATA61).
+Major contributor for this project: [Tao Ni](https://tony520.github.io) (ANU), [Dr Qing Wang](http://users.cecs.anu.edu.au/~u5170295/index.html) (ANU Database Group) and [Dr Gabriela Ferraro](http://users.cecs.anu.edu.au/~gferraro/index.html) (ANU, CSIRO DATA61).
