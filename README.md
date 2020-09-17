@@ -1,5 +1,5 @@
 # Open-Relation-Extraction
-This is the code repository for project - Open Relation Extraction.
+This is the code repository for the project - Open Relation Extraction.
 
 Table of Contents
 =================
