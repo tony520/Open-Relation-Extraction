@@ -76,9 +76,3 @@ Evaluation methods and code are in the folder `evaluations`.
 Evaluation scripts for new tagging schema are in the folder `new_tagging_schema`.
 
 The benchmark for performance comparison is from [supervised-oie-benchmark](https://github.com/gabrielStanovsky/supervised-oie/tree/master/supervised-oie-benchmark).
-
-## Acknowledgement
-
-Open Relation Extraction is an individual computing project from College of Engineering and Computer Science (CECS), Australian National University (ANU). The original code was written by [Tao Ni](/https://tony520.github.io) using Python 3.x, PyTorch.
-
-Major contributor for this project: [Tao Ni](https://tony520.github.io) (ANU), [Dr Qing Wang](http://users.cecs.anu.edu.au/~u5170295/index.html) (ANU Database Group) and [Dr Gabriela Ferraro](http://users.cecs.anu.edu.au/~gferraro/index.html) (ANU, CSIRO DATA61).
