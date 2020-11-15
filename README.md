@@ -76,3 +76,6 @@ Evaluation methods and code are in the folder `evaluations`.
 Evaluation scripts for new tagging schema are in the folder `new_tagging_schema`.
 
 The benchmark for performance comparison is from [supervised-oie-benchmark](https://github.com/gabrielStanovsky/supervised-oie/tree/master/supervised-oie-benchmark).
+
+## Acknowledgment
+Major controbutors are: [Tao Ni](https://tony520.github.io) (Australian National University), [Gabriela Ferraro](http://users.cecs.anu.edu.au/~gferraro/index.html) (CSIRO DATA61) and [Qing Wang](http://users.cecs.anu.edu.au/~u5170295/index.html) (Australian National University)
